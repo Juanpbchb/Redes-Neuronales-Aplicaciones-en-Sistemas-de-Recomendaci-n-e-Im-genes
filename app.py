@@ -1,3 +1,8 @@
+import os
+# FIX: Evitar Segmentation Fault por colisión de librerías de C++ (PyTorch vs TensorFlow)
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # Reducir logs innecesarios de TF
+
 import streamlit as st
 
 st.set_page_config(
@@ -37,11 +42,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
-# Importar Módulos
-import modules.mod1_demand as mod1
-import modules.mod2_vision as mod2
-import modules.mod3_recommend as mod3
 
 def main():
     st.sidebar.image("https://cdn-icons-png.flaticon.com/512/3448/3448339.png", width=100)
@@ -95,12 +95,15 @@ def main():
             """, unsafe_allow_html=True)
 
     elif choice == "📈 Mod 1: Predicción de Demanda":
+        import modules.mod1_demand as mod1
         mod1.app()
         
     elif choice == "📸 Mod 2: Conducción Distractiva":
+        import modules.mod2_vision as mod2
         mod2.app()
         
     elif choice == "🗺️ Mod 3: Recomendación de Destinos":
+        import modules.mod3_recommend as mod3
         mod3.app()
 
 if __name__ == '__main__':
